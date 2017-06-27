@@ -6,12 +6,12 @@
     android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_container_forecast"
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rec_list"
+            android:id="@+id/rv_shot_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

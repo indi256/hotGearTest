@@ -6,7 +6,9 @@ import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ImageSize {
+import io.realm.RealmObject;
+
+public class ImageSize extends RealmObject {
     private String hiRes;
     private String mediumRes;
     private String lowRes;
