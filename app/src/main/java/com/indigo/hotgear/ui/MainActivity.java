@@ -8,13 +8,17 @@ import android.util.Log;
 
 import com.indigo.hotgear.R;
 import com.indigo.hotgear.adapter.ViewPagerAdapter;
+import com.indigo.hotgear.model.Shot;
 import com.indigo.hotgear.network.Api;
 import com.indigo.hotgear.network.Method;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Api.ResponseListener {
     private ViewPager viewPager;
@@ -47,8 +51,12 @@ public class MainActivity extends AppCompatActivity implements Api.ResponseListe
     }
 
     @Override
-    public void onSuccess(JSONObject object) throws JSONException {
+    public void onSuccess(JSONArray object) throws JSONException {
         Log.d("MAIN", object.toString());
+        List<Shot> list = new ArrayList<Shot>();
+        for (int i = 0; i < object.length(); i++) {
+            list.add(Shot.fromJson(object.getJSONObject(i)));
+        }
     }
 
     @Override

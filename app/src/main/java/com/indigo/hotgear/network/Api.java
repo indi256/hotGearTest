@@ -1,26 +1,28 @@
 package com.indigo.hotgear.network;
 
-        import android.content.Context;
-        import android.support.annotation.Nullable;
-        import android.util.Log;
-        import android.widget.Toast;
+import android.content.Context;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.widget.Toast;
 
-        import com.android.volley.Request;
-        import com.android.volley.RequestQueue;
-        import com.android.volley.Response;
-        import com.android.volley.VolleyError;
-        import com.android.volley.toolbox.JsonObjectRequest;
-        import com.android.volley.toolbox.Volley;
-        import com.indigo.hotgear.BuildConfig;
-        import com.indigo.hotgear.HotgearApp;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.indigo.hotgear.BuildConfig;
+import com.indigo.hotgear.HotgearApp;
 
-        import org.json.JSONException;
-        import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-        import java.util.ArrayList;
-        import java.util.HashMap;
-        import java.util.List;
-        import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Api {
     private static final String TAG = "API";
@@ -75,9 +77,9 @@ public class Api {
         params.put("access_token", "2579fb43ae3f617bb48b0806c99263b4cdcb66f7fe818b0e2e91292abf97692f");
 
 
-        JsonObjectRequest request = new JsonObjectRequest(method.getRequestMethod(), appendParams(params,url), null, new Response.Listener<JSONObject>() {
+        JsonArrayRequest request = new JsonArrayRequest(method.getRequestMethod(), appendParams(params, url), null, new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(JSONArray response) {
                 System.out.println("=========JSON RESPONSE=========");
                 Log.d(TAG, "For request: " + url);
                 Log.d(TAG, response.toString());
@@ -105,10 +107,9 @@ public class Api {
 
 
         for (String s : list) {
-            if (list.indexOf(s)==0){
+            if (list.indexOf(s) == 0) {
                 sb.append("?");
-            }
-            else {
+            } else {
                 sb.append("&");
             }
             sb.append(s);
@@ -116,12 +117,12 @@ public class Api {
             sb.append(params.get(s));
 
         }
-        return  sb.toString();
+        return sb.toString();
 
     }
 
     public interface ResponseListener {
-        void onSuccess(JSONObject object) throws JSONException;
+        void onSuccess(JSONArray object) throws JSONException;
 
         void onError();
     }
