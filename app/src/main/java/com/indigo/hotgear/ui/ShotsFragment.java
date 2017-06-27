@@ -1,7 +1,7 @@
 package com.indigo.hotgear.ui;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -27,13 +27,14 @@ import java.util.List;
 
 import io.realm.Realm;
 
-public class ShotsFragment extends Fragment implements Api.ResponseListener {
+public class ShotsFragment extends Fragment implements Api.ResponseListener, ShotsAdapter.OnShotItemClicked {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ShotsAdapter shotsAdapter;
     private List<Shot> fetchedShots;
     private List<Shot> realmShots;
     private Realm realm;
+    private OnFragmentChangeListener listener;
 
 
     @Override
@@ -44,7 +45,6 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener {
 
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_shot_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -54,7 +54,7 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener {
             }
         });
 
-        setUpRecyclerView(writeFromRealm(realm, realmShots));
+        setUpRecyclerView(readFromRealm(realm, realmShots));
 
         fetchShots();
 
@@ -67,15 +67,15 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener {
         Api.getInstance().callMethod(Method.GET_SHOTS, params, this);
     }
 
-    private List<Shot> writeFromRealm(Realm realm, List<Shot> list) {
-        list = realm.where(Shot.class).findAll();
+    private List<Shot> readFromRealm(Realm realm, List<Shot> list) {
+        list = realm.where(Shot.class).equalTo("animated",false).findAll();
         return list;
     }
 
     private void setUpRecyclerView(List<Shot> list) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        shotsAdapter = new ShotsAdapter(list);
+        shotsAdapter = new ShotsAdapter(list, this);
         recyclerView.setAdapter(shotsAdapter);
     }
 
@@ -83,17 +83,42 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener {
     public void onSuccess(JSONArray object) throws JSONException {
         fetchedShots = new ArrayList<>();
         for (int i = 0; i < object.length(); i++) {
-            fetchedShots.add(Shot.fromJson(object.getJSONObject(i)));
+            Shot shot = Shot.fromJson(object.getJSONObject(i));
+            if (!shot.isAnimated())
+                fetchedShots.add(shot);
         }
+        shotsAdapter.upDateItems(fetchedShots);
 
-        setUpRecyclerView(fetchedShots);
 
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onError() {
-
+        swipeRefreshLayout.setRefreshing(false);
+        Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
     }
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentChangeListener) {
+            listener = (OnFragmentChangeListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + "must implement OnShortItemClicked");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    @Override
+    public void onShortItemClicked(long id) {
+        listener.onFragmentChanged(PictureFragment.newInstance(id));
+    }
 }

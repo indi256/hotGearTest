@@ -1,18 +1,14 @@
 package com.indigo.hotgear.ui;
 
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.indigo.hotgear.R;
-import com.indigo.hotgear.adapter.ViewPagerAdapter;
 
 
-public class MainActivity extends AppCompatActivity implements OnFragmentChangeListener {
+public class MainActivity extends AppCompatActivity implements OnFragmentChangeListener{
 
 
 
@@ -38,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChangeL
 
     @Override
     public void onFragmentChanged(Fragment fragment) {
-        setCurrentFragment(fragment,false);
+        setCurrentFragment(fragment,true);
     }
+
+
 }

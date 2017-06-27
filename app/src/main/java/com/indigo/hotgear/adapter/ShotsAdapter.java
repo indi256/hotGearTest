@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.indigo.hotgear.R;
 import com.indigo.hotgear.model.Shot;
+import com.indigo.hotgear.network.Api;
 
 import java.util.List;
 
@@ -22,10 +23,12 @@ public class ShotsAdapter extends RecyclerView.Adapter<ShotsAdapter.ViewHolder> 
     private Realm realm = Realm.getDefaultInstance();
     private List<Shot> shots;
     private Context context;
+    private OnShotItemClicked listener;
 
 
-    public ShotsAdapter(List<Shot> shots) {
+    public ShotsAdapter(List<Shot> shots, OnShotItemClicked listener) {
         this.shots = shots;
+        this.listener = listener;
     }
 
     @Override
@@ -36,12 +39,18 @@ public class ShotsAdapter extends RecyclerView.Adapter<ShotsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Shot shot = shots.get(position);
+        final Shot shot = shots.get(position);
         holder.title.setText(shot.getTitle());
         if (!TextUtils.isEmpty(shot.getDescription())) {
             holder.descr.setText(Html.fromHtml(shot.getDescription()));
         }
         Glide.with(context).load(shot.getImageSize().getLowRes()).into(holder.image);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onShortItemClicked(shot.getId());
+            }
+        });
     }
 
     @Override
@@ -49,7 +58,8 @@ public class ShotsAdapter extends RecyclerView.Adapter<ShotsAdapter.ViewHolder> 
         return shots.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView image;
         private TextView title, descr;
@@ -64,9 +74,15 @@ public class ShotsAdapter extends RecyclerView.Adapter<ShotsAdapter.ViewHolder> 
 
         }
 
-        @Override
-        public void onClick(View v) {
+    }
 
-        }
+    public void upDateItems(List<Shot> list){
+        this.shots = list;
+        notifyDataSetChanged();
+    }
+
+    public interface OnShotItemClicked{
+        void onShortItemClicked(long id);
+
     }
 }
