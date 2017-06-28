@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">Hotgear</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title">title</string>
     <string name="descr">descr</string>
+    <string name="dribbble_api_key">2579fb43ae3f617bb48b0806c99263b4cdcb66f7fe818b0e2e91292abf97692f</string>
 </resources>

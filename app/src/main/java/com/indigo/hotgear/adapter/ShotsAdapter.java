@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.indigo.hotgear.R;
 import com.indigo.hotgear.model.Shot;
-import com.indigo.hotgear.network.Api;
 
 import java.util.List;
 
@@ -45,6 +44,7 @@ public class ShotsAdapter extends RecyclerView.Adapter<ShotsAdapter.ViewHolder> 
             holder.descr.setText(Html.fromHtml(shot.getDescription()));
         }
         Glide.with(context).load(shot.getImageSize().getHighestSize()).into(holder.image);
+        String s = shot.getImageSize().getHighestSize();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,12 +76,12 @@ public class ShotsAdapter extends RecyclerView.Adapter<ShotsAdapter.ViewHolder> 
 
     }
 
-    public void upDateItems(List<Shot> list){
+    public void upDateItems(List<Shot> list) {
         this.shots = list;
         notifyDataSetChanged();
     }
 
-    public interface OnShotItemClicked{
+    public interface OnShotItemClicked {
         void onShortItemClicked(long id);
 
     }

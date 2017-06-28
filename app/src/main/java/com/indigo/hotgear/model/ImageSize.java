@@ -1,6 +1,5 @@
 package com.indigo.hotgear.model;
 
-import android.app.ActivityManager;
 import android.text.TextUtils;
 
 import org.json.JSONException;
@@ -41,24 +40,35 @@ public class ImageSize extends RealmObject {
 
     public static ImageSize fromJson(JSONObject object) throws JSONException {
         ImageSize imageSize = new ImageSize();
-        imageSize.hiRes = object.optString("hidpi", null);
-        imageSize.mediumRes = object.optString("normal", null);
-        imageSize.lowRes = object.optString("teaser", null);
+        imageSize.hiRes = checkForNull(object, "hires");
+        imageSize.mediumRes = checkForNull(object, "normal");
+        imageSize.lowRes = checkForNull(object, "teaser");
 
         return imageSize;
     }
 
     public String getHighestSize() {
         if (!TextUtils.isEmpty(hiRes)) {
+            System.out.println("High Res");
             return hiRes;
-        }
-        if (!TextUtils.isEmpty(mediumRes)) {
+        } else if (!TextUtils.isEmpty(mediumRes)) {
+            System.out.println("Medium Res");
             return mediumRes;
-        }
-        if (!TextUtils.isEmpty(lowRes)) {
+        } else if (!TextUtils.isEmpty(lowRes)) {
+            System.out.println("Low Res");
             return lowRes;
         }
         throw new RuntimeException("Image must have a size");
+
+
+    }
+
+    public static String checkForNull(JSONObject jsonObject, String key) {
+        if (jsonObject.isNull(key)) {
+            return null;
+        } else {
+            return jsonObject.optString(key, null);
+        }
     }
 
 }

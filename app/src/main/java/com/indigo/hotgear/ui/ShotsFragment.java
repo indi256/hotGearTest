@@ -2,7 +2,6 @@ package com.indigo.hotgear.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -33,8 +32,6 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener, Sho
     private SwipeRefreshLayout swipeRefreshLayout;
     private ShotsAdapter shotsAdapter;
     private List<Shot> fetchedShots;
-    private List<Shot> realmShots;
-    private Realm realm;
     private OnFragmentChangeListener listener;
 
 
@@ -42,7 +39,6 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener, Sho
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.shots_fragment, container, false);
-        realm = Realm.getDefaultInstance();
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_shot_list);
 
@@ -55,28 +51,22 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener, Sho
         });
         fetchShots();
 
-
-        setUpRecyclerView(readFromRealm(realm, fetchedShots));
+        setUpRecyclerView(readFromRealm());
 
         return view;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     private void fetchShots() {
         swipeRefreshLayout.setRefreshing(true);
         fetchedShots = new ArrayList<>();
         HashMap<String, String> params = new HashMap<>();
-        params.put("per_page", "10");
+        params.put("per_page", "50");
         Api.getInstance().callMethod(Method.GET_SHOTS, params, this);
     }
 
-    private List<Shot> readFromRealm(Realm realm, List<Shot> list) {
-        list = realm.where(Shot.class).equalTo("animated",false).findAll();
-        return list;
+    private List<Shot> readFromRealm() {
+        return Realm.getDefaultInstance().where(Shot.class).equalTo("animated", false).findAll();
     }
 
     private void setUpRecyclerView(List<Shot> list) {
@@ -102,7 +92,7 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener, Sho
     public void onError() {
         swipeRefreshLayout.setRefreshing(false);
 
-        Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
     }
 
 

@@ -3,7 +3,6 @@ package com.indigo.hotgear.network;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,24 +11,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.indigo.hotgear.BuildConfig;
 import com.indigo.hotgear.HotgearApp;
+import com.indigo.hotgear.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Api {
     private static final String TAG = "API";
     private static Api ourInstance;
     private RequestQueue requestQueue;
     private static Context context;
-    private Toast toast;
     private JsonObjectRequest jsonObject;
     final String BASE_URL = "https://api.dribbble.com/v1";
 
@@ -63,9 +59,6 @@ public class Api {
         return jsonObject;
     }
 
-    public void callMethod(Method method) {
-
-    }
 
     public void callMethod(Method method, @Nullable HashMap<String, String> par, final ResponseListener listener) {
         final String url = BASE_URL + Method.GET_SHOTS.getUrl();
@@ -74,7 +67,7 @@ public class Api {
         if (par != null) {
             params.putAll(par);
         }
-        params.put("access_token", "2579fb43ae3f617bb48b0806c99263b4cdcb66f7fe818b0e2e91292abf97692f");
+        params.put("access_token", context.getString(R.string.dribbble_api_key));
 
 
         JsonArrayRequest request = new JsonArrayRequest(method.getRequestMethod(), appendParams(params, url), null, new Response.Listener<JSONArray>() {
