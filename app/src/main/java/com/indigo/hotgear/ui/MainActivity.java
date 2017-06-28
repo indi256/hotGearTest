@@ -8,15 +8,14 @@ import android.os.Bundle;
 import com.indigo.hotgear.R;
 
 
-public class MainActivity extends AppCompatActivity implements OnFragmentChangeListener{
-
+public class MainActivity extends AppCompatActivity implements OnFragmentChangeListener {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setCurrentFragment(new ShotsFragment(),false);
+        setCurrentFragment(new ShotsFragment(), false);
 
     }
 
@@ -25,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChangeL
         fragmentTransaction.replace(R.id.main_container, fragment, fragment.getClass().getSimpleName());
         if (withBackStack) {
             fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
-
         }
         fragmentTransaction.commit();
 
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChangeL
 
     @Override
     public void onFragmentChanged(Fragment fragment) {
-        setCurrentFragment(fragment,true);
+        setCurrentFragment(fragment, true);
     }
 
 

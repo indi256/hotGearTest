@@ -44,7 +44,7 @@ public class ShotsAdapter extends RecyclerView.Adapter<ShotsAdapter.ViewHolder> 
         if (!TextUtils.isEmpty(shot.getDescription())) {
             holder.descr.setText(Html.fromHtml(shot.getDescription()));
         }
-        Glide.with(context).load(shot.getImageSize().getLowRes()).into(holder.image);
+        Glide.with(context).load(shot.getImageSize().getHighestSize()).into(holder.image);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -2,6 +2,7 @@ package com.indigo.hotgear.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -43,7 +44,6 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener, Sho
         View view = inflater.inflate(R.layout.shots_fragment, container, false);
         realm = Realm.getDefaultInstance();
 
-
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_shot_list);
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
@@ -53,17 +53,24 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener, Sho
                 fetchShots();
             }
         });
-
-        setUpRecyclerView(readFromRealm(realm, realmShots));
-
         fetchShots();
+
+
+        setUpRecyclerView(readFromRealm(realm, fetchedShots));
 
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     private void fetchShots() {
+        swipeRefreshLayout.setRefreshing(true);
+        fetchedShots = new ArrayList<>();
         HashMap<String, String> params = new HashMap<>();
-        params.put("per_page", "50");
+        params.put("per_page", "10");
         Api.getInstance().callMethod(Method.GET_SHOTS, params, this);
     }
 
@@ -81,7 +88,6 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener, Sho
 
     @Override
     public void onSuccess(JSONArray object) throws JSONException {
-        fetchedShots = new ArrayList<>();
         for (int i = 0; i < object.length(); i++) {
             Shot shot = Shot.fromJson(object.getJSONObject(i));
             if (!shot.isAnimated())
@@ -89,13 +95,13 @@ public class ShotsFragment extends Fragment implements Api.ResponseListener, Sho
         }
         shotsAdapter.upDateItems(fetchedShots);
 
-
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onError() {
         swipeRefreshLayout.setRefreshing(false);
+
         Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
     }
 

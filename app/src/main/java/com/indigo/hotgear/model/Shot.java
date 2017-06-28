@@ -29,20 +29,18 @@ public class Shot extends RealmObject {
 
         shot.imageSize = ImageSize.fromJson(object.getJSONObject("images"));
 
-        copyOrReplaceToRealm(shot);
+        copyToRealmOrUpdate(shot);
 
         return shot;
 
     }
 
-    public static void copyOrReplaceToRealm(final Shot shot) {
+    public static void copyToRealmOrUpdate(final Shot shot) {
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-
                 realm.copyToRealmOrUpdate(shot);
-
             }
         });
 
