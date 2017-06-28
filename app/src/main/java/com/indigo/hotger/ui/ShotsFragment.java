@@ -1,4 +1,4 @@
-package com.indigo.hotgear.ui;
+package com.indigo.hotger.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.indigo.hotgear.R;
-import com.indigo.hotgear.adapter.ShotsAdapter;
-import com.indigo.hotgear.model.Shot;
-import com.indigo.hotgear.network.Api;
-import com.indigo.hotgear.network.Method;
+import com.indigo.hotger.R;
+import com.indigo.hotger.adapter.ShotsAdapter;
+import com.indigo.hotger.model.Shot;
+import com.indigo.hotger.network.Api;
+import com.indigo.hotger.network.Method;
 
 import org.json.JSONArray;
 import org.json.JSONException;

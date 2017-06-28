@@ -1,4 +1,4 @@
-package com.indigo.hotgear;
+package com.indigo.hotger;
 
 import org.junit.Test;
 

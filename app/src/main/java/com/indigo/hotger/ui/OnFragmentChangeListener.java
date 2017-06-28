@@ -1,4 +1,4 @@
-package com.indigo.hotgear.ui;
+package com.indigo.hotger.ui;
 
 import android.support.v4.app.Fragment;
 

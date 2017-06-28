@@ -1,4 +1,4 @@
-package com.indigo.hotgear.model;
+package com.indigo.hotger.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.indigo.hotgear;
+package com.indigo.hotger;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

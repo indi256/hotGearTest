@@ -1,4 +1,4 @@
-package com.indigo.hotgear.adapter;
+package com.indigo.hotger.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.indigo.hotgear.R;
-import com.indigo.hotgear.model.Shot;
+import com.indigo.hotger.R;
+import com.indigo.hotger.model.Shot;
 
 import java.util.List;
 

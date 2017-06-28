@@ -1,4 +1,4 @@
-package com.indigo.hotgear.ui;
+package com.indigo.hotger.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.indigo.hotgear.R;
-import com.indigo.hotgear.model.Shot;
+import com.indigo.hotger.R;
+import com.indigo.hotger.model.Shot;
 
 import io.realm.Realm;
 

@@ -1,4 +1,4 @@
-package com.indigo.hotgear;
+package com.indigo.hotger;
 
 import android.app.Application;
 import android.content.Context;
@@ -9,7 +9,7 @@ import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class HotgearApp extends Application {
+public class HotgerApp extends Application {
     private static Context context;
 
     public static Context getContext() {
@@ -20,7 +20,7 @@ public class HotgearApp extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
-        HotgearApp.context = getApplicationContext();
+        HotgerApp.context = getApplicationContext();
         Realm.init(context);
         RealmConfiguration config = new RealmConfiguration
                 .Builder()

@@ -1,4 +1,4 @@
-package com.indigo.hotgear.network;
+package com.indigo.hotger.network;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -11,8 +11,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.indigo.hotgear.HotgearApp;
-import com.indigo.hotgear.R;
+import com.indigo.hotger.HotgerApp;
+import com.indigo.hotger.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +38,7 @@ public class Api {
     }
 
     private Api() {
-        context = HotgearApp.getContext();
+        context = HotgerApp.getContext();
         requestQueue = getRequestQueue();
 
     }

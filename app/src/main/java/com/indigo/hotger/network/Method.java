@@ -1,4 +1,4 @@
-package com.indigo.hotgear.network;
+package com.indigo.hotger.network;
 
 import com.android.volley.Request;
 
